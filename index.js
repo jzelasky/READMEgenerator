@@ -6,7 +6,7 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 
 const questions = ['What is the title of your project?', 'What was your motivation for your project?', 'Why did you build this project?', 'What problem does your project solve?', 'What did you learn from your project?', 'What are the steps required to install your project?', 'What are the usage instructions for your project?', 'What licenses did your project use?', 'What are the Github user names of the contributors of your project?', 'What are the tests for your project?', 'What is your email address?']
-const {title, motivation, whyBuild, problem, learn, install, instructions, licenses, github, tests, email} = questions
+const {title, motivation, whyBuild, problem, learn, install, usage, licenses, github, tests, email} = questions
 
 function init () {
     inquirer
@@ -30,8 +30,8 @@ function init () {
                 message: install,
                 name: 'install'},
             {   type: 'input',
-                message: instructions,
-                name: 'instructions'},
+                message: usage,
+                name: 'usage'},
             {   type: 'checkbox',
                 message: licenses,
                 name: 'licenses',
@@ -46,6 +46,46 @@ function init () {
                 message: email,
                 name: 'email'},
         ])
+        .then((answers) => {
+            fs.writeFile('README.md',
+            `# ${answers.title}
+            
+            ## Description
+
+            ${answers.motivation} ${answers.whyBuild} ${answers.problem} ${answers.learn}
+
+            ## Table of Contents
+
+            - [Installation](#installation)
+            - [Usage](#usage)
+            - [Credits](#credits)
+            - [License](#license)
+
+            ## Installation
+
+            ${install}
+
+            ## Usage
+
+            ${usage}
+
+            ## Credits 
+
+            ${github}
+
+            ${email}
+
+            ## License
+
+            ${license}
+
+            ## Tests
+
+            ${tests}
+            `,
+            (err) =>
+            err ? console.error(err) : console.log('README file created!'))
+        })
 }
 
 init ();
