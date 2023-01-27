@@ -5,84 +5,80 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const questions = ['What is the title of your project?', 'What was your motivation for your project?', 'Why did you build this project?', 'What problem does your project solve?', 'What did you learn from your project?', 'What are the steps required to install your project?', 'What are the usage instructions for your project?', 'What licenses did your project use?', 'What are the Github user names of the contributors of your project?', 'What are the tests for your project?', 'What is your email address?']
-const {title, motivation, whyBuild, problem, learn, install, usage, licenses, github, tests, email} = questions
-
 function init () {
     inquirer
         .prompt([
             {   type: 'input',
-                message: title,
+                message: 'What is the title of your project?',
                 name: 'title'},
             {   type: 'input',
-                message: motivation,
+                message:'What was your motivation for your project?',
                 name: 'motivation'},
             {   type: 'input',
-                message: whyBuild,
+                message:'Why did you build this project?',
                 name: 'whyBuild'},
             {   type: 'input',
-                message: problem,
+                message: 'What problem does your project solve?',
                 name: 'problem'},
             {   type: 'input',
-                message: learn,
+                message: 'What did you learn from your project?',
                 name: 'learn'},
             {   type: 'input',
-                message: install,
+                message:'What are the steps required to install your project?',
                 name: 'install'},
             {   type: 'input',
-                message: usage,
+                message: 'What are the usage instructions for your project?',
                 name: 'usage'},
             {   type: 'checkbox',
-                message: licenses,
+                message: 'What licenses did your project use?',
                 name: 'licenses',
                 choices: ['license 1', 'license 2', 'license 3']},
             {   type: 'input',
-                message: github,
+                message: 'What are the Github user names of the contributors of your project?',
                 name: 'github'},
             {   type: 'input',
-                message: tests,
+                message:'What are the tests for your project?',
                 name: 'tests'},
             {   type: 'input',
-                message: email,
+                message: 'What is your email address?',
                 name: 'email'},
         ])
         .then((answers) => {
             fs.writeFile('README.md',
             `# ${answers.title}
             
-            ## Description
+## Description
 
-            ${answers.motivation} ${answers.whyBuild} ${answers.problem} ${answers.learn}
+${answers.motivation} ${answers.whyBuild} ${answers.problem} ${answers.learn}
 
-            ## Table of Contents
+## Table of Contents
 
-            - [Installation](#installation)
-            - [Usage](#usage)
-            - [Credits](#credits)
-            - [License](#license)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Credits](#credits)
+- [License](#license)
 
-            ## Installation
+## Installation
 
-            ${install}
+${answers.install}
 
-            ## Usage
+## Usage
 
-            ${usage}
+${answers.usage}
 
-            ## Credits 
+## Credits 
 
-            ${github}
+${answers.github}
 
-            ${email}
+${answers.email}
 
-            ## License
+## License
 
-            ${license}
+${answers.license}
 
-            ## Tests
+## Tests
 
-            ${tests}
-            `,
+${answers.tests}`,
             (err) =>
             err ? console.error(err) : console.log('README file created!'))
         })
